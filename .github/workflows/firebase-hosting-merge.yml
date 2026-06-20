@@ -14,7 +14,7 @@ jobs:
       - run: y
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
-          repoToken: ${{ secrets.GITHUB_TOKEN }}
+          repoToken: ${{ secrets.FIREBASE_TOKEN }}
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_SPORTS_CALENDAR_SYNC_9D780 }}
           channelId: live
           projectId: sports-calendar-sync-9d780
