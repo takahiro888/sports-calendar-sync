@@ -17,7 +17,7 @@ describe("初期動作確認テスト", () => {
   it("Greetingコンポーネントが正しく表示されること", () => {
     render(<Greeting name="Takahiro" />);
 
-    // "Hello, Takahiro!" というテキストが画面内にあるか確認
+    // "Hello, Takahiro!" というテキストが画面内にあるか確認する
     const element = screen.getByText(/Hello, Takahiro!/i);
     expect(element).toBeInTheDocument();
   });
