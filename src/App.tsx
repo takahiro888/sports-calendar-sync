@@ -4,7 +4,7 @@ import "./App.css";
 function App() {
   return (
     <>
-      <Button>テストテストテストテスト</Button>
+      <Button>テストテストテストテストテスト</Button>
     </>
   );
 }
