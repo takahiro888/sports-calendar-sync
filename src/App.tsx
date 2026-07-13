@@ -2,6 +2,45 @@ import { Text, Box } from "@chakra-ui/react";
 import "./App.css";
 import { SubscriptionPanel } from "@/features/subscription/components/SubscriptionPanel";
 
+const mockGames = [
+  {
+    id: 1,
+    date: "06/28",
+    time: "11:10",
+    matchup: "Dodgers vs Padres",
+    location: "AWAY",
+    broadcast: "SPOTV NOW",
+    tag: "ドジャース全試合",
+  },
+  {
+    id: 2,
+    date: "06/29",
+    time: "05:10",
+    matchup: "Dodgers vs Padres",
+    location: "AWAY",
+    broadcast: "SPOTV NOW",
+    tag: "ドジャース全試合",
+  },
+  {
+    id: 3,
+    date: "07/01",
+    time: "10:40",
+    matchup: "Dodgers vs Diamondbacks",
+    location: "HOME",
+    broadcast: "SPOTV NOW",
+    tag: "ドジャース全試合",
+  },
+  {
+    id: 4,
+    date: "07/02",
+    time: "10:40",
+    matchup: "Dodgers vs Diamondbacks",
+    location: "HOME",
+    broadcast: "SPOTV NOW",
+    tag: "ドジャース全試合",
+  },
+];
+
 const set = new Set(["value1", "value1", "value2"]);
 console.log(set);
 
