@@ -8,7 +8,7 @@ export const initialSyncItems: SyncItem[] = [
   },
   {
     id: "ohtani",
-    title: "大谷 翔平 の出場予定テストテスト",
+    title: "大谷 翔平 の出場予定テストテストテスト",
     description: "大谷選手が出場する見込みの試合 (10試合)",
     badge: "全試合会に所属",
     disabled: true,
