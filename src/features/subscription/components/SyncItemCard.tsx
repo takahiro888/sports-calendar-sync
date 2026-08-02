@@ -24,6 +24,11 @@ export const SyncItemCard = ({
     <Box
       //   as="label" // label要素にすることでカード全体クリック可能にする
       //   htmlFor={item.id}
+      onClick={() => {
+        if (!isDisabled) {
+          onChange(item.id, !checked);
+        }
+      }}
       border="2px solid"
       borderColor={checked ? "blue.500" : "whiteAlpha.300"}
       borderRadius="md"
