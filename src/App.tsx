@@ -266,6 +266,22 @@ function App() {
               ※カレンダーへのデータ追加は安全な「購読（ウェブカレンダー経由）」として処理されます。
             </Text>
           </Box>
+
+          {/* フッター */}
+          <Box textAlign="center" mt={10} mb={8} px={4}>
+            <Text fontSize="xs" color="whiteAlpha.600">
+              © 2026 SportsCalendar Sync. All rights reserved.
+            </Text>
+            <Text
+              fontSize="xs"
+              color="whiteAlpha.400"
+              mt={2}
+              maxW="md"
+              mx="auto"
+            >
+              本サービスはオープンなプロトタイプ（MVP）であり、メジャーリーグベースボール（MLB）および選手会、各所属球団等とは提携・関係していません。
+            </Text>
+          </Box>
         </Box>
       </Box>
     </>
