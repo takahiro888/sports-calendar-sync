@@ -72,98 +72,111 @@ function App() {
         </Text>
         <Box w="full" maxW="lg">
           <SubscriptionPanel />
-          <Box
-            display="flex"
-            alignItems="center"
-            justifyContent="space-between"
-            mb={1}
-          >
-            <Box display="flex" alignItems="center" gap={3}>
-              <Box
-                bg="blue.500"
-                color="white"
-                borderRadius="full"
-                w={7}
-                h={7}
-                display="flex"
-                alignItems="center"
-                justifyContent="center"
-                fontWeight="bold"
-                fontSize="sm"
-              >
-                2
+          <Box bg="gray.800" borderRadius="xl" p={6} mt={4}>
+            <Box
+              display="flex"
+              alignItems="center"
+              justifyContent="space-between"
+              mb={1}
+            >
+              <Box display="flex" alignItems="center" gap={3}>
+                <Box
+                  bg="blue.500"
+                  color="white"
+                  borderRadius="full"
+                  w={7}
+                  h={7}
+                  display="flex"
+                  alignItems="center"
+                  justifyContent="center"
+                  fontWeight="bold"
+                  fontSize="sm"
+                >
+                  2
+                </Box>
+                <Text fontWeight="bold" fontSize="lg" color="white">
+                  登録予定の試合日程プレビュー
+                </Text>
               </Box>
-              <Text fontWeight="bold" fontSize="lg" color="white">
-                登録予定の試合日程プレビュー
-              </Text>
+              <Badge colorPalette="gray" px={3} py={1} borderRadius="full">
+                計{mockGames.length}件
+              </Badge>
             </Box>
-            <Badge colorPalette="gray" px={3} py={1} borderRadius="full">
-              計{mockGames.length}件
-            </Badge>
-          </Box>
 
-          <Text fontSize="sm" color="whiteAlpha.700" mb={4} ml={10}>
-            カレンダーに同期される試合スケジュールの一覧です。
-          </Text>
+            <Text fontSize="sm" color="whiteAlpha.700" mb={4} ml={10} textAlign="left">
+              カレンダーに同期される試合スケジュールの一覧です。
+            </Text>
 
-          {/* 試合リスト */}
-          <Box
-            bg="gray.700"
-            borderRadius="lg"
-            overflow="hidden"
-            maxH="240px" // スクロール可能な高さ
-            overflowY="auto"
-          >
-            {mockGames.map((game, index) => (
-              <Box
-                key={game.id}
-                display="flex"
-                alignItems="center"
-                justifyContent="space-between"
-                px={4}
-                py={3}
-                borderBottom={
-                  index < mockGames.length - 1 ? "1px solid" : "none"
-                }
-                borderColor="whiteAlpha.100"
-                gap={3}
-              >
-                {/* 日付・時刻 */}
-                <Box minW="48px" textAlign="center">
-                  <Text fontSize="xs" color="whiteAlpha.600">
-                    {game.date}
-                  </Text>
-                  <Text fontSize="sm" fontWeight="bold" color="white">
-                    {game.time}
-                  </Text>
-                </Box>
-
-                {/* 試合情報 */}
-                <Box flex={1}>
-                  <Box display="flex" textAlign="center" gap={2}>
-                    <Text fontSize="sm" color="white">
-                      {game.matchup}
+            {/* 試合リスト */}
+            <Box
+              bg="gray.700"
+              borderRadius="lg"
+              overflow="hidden"
+              maxH="240px" // スクロール可能な高さ
+              overflowY="auto"
+            >
+              {mockGames.map((game, index) => (
+                <Box
+                  key={game.id}
+                  display="flex"
+                  alignItems="center"
+                  justifyContent="space-between"
+                  px={4}
+                  py={3}
+                  borderBottom={
+                    index < mockGames.length - 1 ? "1px solid" : "none"
+                  }
+                  borderColor="whiteAlpha.100"
+                  gap={3}
+                >
+                  {/* 日付・時刻 */}
+                  <Box minW="48px" textAlign="center">
+                    <Text fontSize="xs" color="whiteAlpha.600">
+                      {game.date}
                     </Text>
-                    <Badge
-                      colorPalette={
-                        game.location === "AWAY" ? "orange" : "green"
-                      }
-                      size="xs"
-                      variant="solid"
-                    >
-                      {game.location}
-                    </Badge>
+                    <Text fontSize="sm" fontWeight="bold" color="white">
+                      {game.time}
+                    </Text>
                   </Box>
-                  <Text fontSize="xs" color="whiteAlpha.600" mt={1}>
-                    {game.broadcast}
-                  </Text>
+
+                  {/* 試合情報 */}
+                  <Box flex={1}>
+                    <Box display="flex" alignItems="center" gap={2}>
+                      <Text fontSize="sm" color="white">
+                        {game.matchup}
+                      </Text>
+                      <Badge
+                        colorPalette={
+                          game.location === "AWAY" ? "orange" : "green"
+                        }
+                        size="xs"
+                        variant="solid"
+                      >
+                        {game.location}
+                      </Badge>
+                    </Box>
+                    <Text fontSize="xs" color="whiteAlpha.600" mt={0.5}  textAlign="left">
+                      {game.broadcast}
+                    </Text>
+                  </Box>
+                  {/* タグ */}
+                  <Badge
+                    bg="rgba(99, 179, 237,0.12)"
+                    color="blue.200"
+                    border="1px solid"
+                    borderColor="blue.500"
+                    borderRadius="md"
+                    px={2}
+                    py={0.5}
+                    fontSize="xs"
+                    fontWeight="medium"
+                    letterSpacing="wide"
+                  >
+                    {game.tag}
+                  </Badge>
                 </Box>
-                {/* タグ */}
-                <Badge colorPalette="blue" size="sm" variant="outline">
-                  {game.tag}
-                </Badge>
-              </Box>
-            ))}
+              ))}
+            </Box>
           </Box>
 
           {/* Step 3: デバイス選択 */}
@@ -187,7 +200,7 @@ function App() {
                 デバイスを選択して同期開始
               </Text>
             </Box>
-            <Text fontSize="sm" color="whiteAlpha.700" mb={6} ml={10}>
+            <Text fontSize="sm" color="whiteAlpha.700" mb={6} ml={10} textAlign="left">
               お使いのデバイスに合わせて選択してください。日程の変更や追加は自動反映されます。
             </Text>
 

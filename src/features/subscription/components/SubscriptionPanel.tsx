@@ -22,7 +22,7 @@ export const SubscriptionPanel = () => {
 
   return (
     <Box bg="gray.800" borderRadius="xl" p={6}>
-      <Box bg="red" display="flex" alignItems="center" gap={3} mb={1}>
+      <Box display="flex" alignItems="center" gap={3} mb={1}>
         <Box
           bg="blue.500"
           color="white"
@@ -41,7 +41,13 @@ export const SubscriptionPanel = () => {
           同期する対象を選ぶ
         </Text>
       </Box>
-      <Text fontSize="sm" color="whiteAlpha.700" mb={4} ml={10}>
+      <Text
+        fontSize="sm"
+        color="whiteAlpha.700"
+        mb={4}
+        ml={10}
+        textAlign="left"
+      >
         カレンダーに入れたい球団や選手にチェックを入れてください。
       </Text>
 
