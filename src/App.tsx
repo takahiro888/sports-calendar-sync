@@ -1,52 +1,25 @@
-import { Text, Box, Badge } from "@chakra-ui/react";
+import { Text, Box, Badge, Spinner } from "@chakra-ui/react";
 import "./App.css";
 import { SubscriptionPanel } from "@/features/subscription/components/SubscriptionPanel";
 import { FcGoogle } from "react-icons/fc";
 import { FaApple } from "react-icons/fa";
-
-const mockGames = [
-  {
-    id: 1,
-    date: "06/28",
-    time: "11:10",
-    matchup: "Dodgers vs Padres",
-    location: "AWAY",
-    broadcast: "SPOTV NOW",
-    tag: "ドジャース全試合",
-  },
-  {
-    id: 2,
-    date: "06/29",
-    time: "05:10",
-    matchup: "Dodgers vs Padres",
-    location: "AWAY",
-    broadcast: "SPOTV NOW",
-    tag: "ドジャース全試合",
-  },
-  {
-    id: 3,
-    date: "07/01",
-    time: "10:40",
-    matchup: "Dodgers vs Diamondbacks",
-    location: "HOME",
-    broadcast: "SPOTV NOW",
-    tag: "ドジャース全試合",
-  },
-  {
-    id: 4,
-    date: "07/02",
-    time: "10:40",
-    matchup: "Dodgers vs Diamondbacks",
-    location: "HOME",
-    broadcast: "SPOTV NOW",
-    tag: "ドジャース全試合",
-  },
-];
-
-const set = new Set(["value1", "value1", "value2"]);
-console.log(set);
+import { useState, useEffect } from "react";
+import {
+  fetchDodgerGames,
+  type Game,
+} from "@/features/subscription/api/mlbApi";
 
 function App() {
+  const [games, setGames] = useState<Game[]>([]);
+  const [gamesLoading, setGamesLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    fetchDodgerGames(2026)
+      .then(setGames)
+      .catch(console.error)
+      .finally(() => setGamesLoading(false));
+  }, []);
+
   return (
     <>
       <Box
@@ -99,11 +72,17 @@ function App() {
                 </Text>
               </Box>
               <Badge colorPalette="gray" px={3} py={1} borderRadius="full">
-                計{mockGames.length}件
+                計{games.length}件
               </Badge>
             </Box>
 
-            <Text fontSize="sm" color="whiteAlpha.700" mb={4} ml={10} textAlign="left">
+            <Text
+              fontSize="sm"
+              color="whiteAlpha.700"
+              mb={4}
+              ml={10}
+              textAlign="left"
+            >
               カレンダーに同期される試合スケジュールの一覧です。
             </Text>
 
@@ -115,67 +94,78 @@ function App() {
               maxH="240px" // スクロール可能な高さ
               overflowY="auto"
             >
-              {mockGames.map((game, index) => (
-                <Box
-                  key={game.id}
-                  display="flex"
-                  alignItems="center"
-                  justifyContent="space-between"
-                  px={4}
-                  py={3}
-                  borderBottom={
-                    index < mockGames.length - 1 ? "1px solid" : "none"
-                  }
-                  borderColor="whiteAlpha.100"
-                  gap={3}
-                >
-                  {/* 日付・時刻 */}
-                  <Box minW="48px" textAlign="center">
-                    <Text fontSize="xs" color="whiteAlpha.600">
-                      {game.date}
-                    </Text>
-                    <Text fontSize="sm" fontWeight="bold" color="white">
-                      {game.time}
-                    </Text>
-                  </Box>
-
-                  {/* 試合情報 */}
-                  <Box flex={1}>
-                    <Box display="flex" alignItems="center" gap={2}>
-                      <Text fontSize="sm" color="white">
-                        {game.matchup}
-                      </Text>
-                      <Badge
-                        colorPalette={
-                          game.location === "AWAY" ? "orange" : "green"
-                        }
-                        size="xs"
-                        variant="solid"
-                      >
-                        {game.location}
-                      </Badge>
-                    </Box>
-                    <Text fontSize="xs" color="whiteAlpha.600" mt={0.5}  textAlign="left">
-                      {game.broadcast}
-                    </Text>
-                  </Box>
-                  {/* タグ */}
-                  <Badge
-                    bg="rgba(99, 179, 237,0.12)"
-                    color="blue.200"
-                    border="1px solid"
-                    borderColor="blue.500"
-                    borderRadius="md"
-                    px={2}
-                    py={0.5}
-                    fontSize="xs"
-                    fontWeight="medium"
-                    letterSpacing="wide"
-                  >
-                    {game.tag}
-                  </Badge>
+              {gamesLoading ? (
+                <Box py={6} textAlign="center">
+                  <Spinner color="blue.500" size="lg" />
                 </Box>
-              ))}
+              ) : (
+                games.map((game, index) => (
+                  <Box
+                    key={game.id}
+                    display="flex"
+                    alignItems="center"
+                    justifyContent="space-between"
+                    px={4}
+                    py={3}
+                    borderBottom={
+                      index < games.length - 1 ? "1px solid" : "none"
+                    }
+                    borderColor="whiteAlpha.100"
+                    gap={3}
+                  >
+                    {/* 日付・時刻 */}
+                    <Box minW="48px" textAlign="center">
+                      <Text fontSize="xs" color="whiteAlpha.600">
+                        {game.date}
+                      </Text>
+                      <Text fontSize="sm" fontWeight="bold" color="white">
+                        {game.time}
+                      </Text>
+                    </Box>
+
+                    {/* 試合情報 */}
+                    <Box flex={1}>
+                      <Box display="flex" alignItems="center" gap={2}>
+                        <Text fontSize="sm" color="white">
+                          {game.matchup}
+                        </Text>
+                        <Badge
+                          colorPalette={
+                            game.location === "AWAY" ? "orange" : "green"
+                          }
+                          size="xs"
+                          variant="solid"
+                        >
+                          {game.location}
+                        </Badge>
+                      </Box>
+                      <Text
+                        fontSize="xs"
+                        color="whiteAlpha.600"
+                        mt={0.5}
+                        textAlign="left"
+                      >
+                        {game.broadcast}
+                      </Text>
+                    </Box>
+                    {/* タグ */}
+                    <Badge
+                      bg="rgba(99, 179, 237,0.12)"
+                      color="blue.200"
+                      border="1px solid"
+                      borderColor="blue.500"
+                      borderRadius="md"
+                      px={2}
+                      py={0.5}
+                      fontSize="xs"
+                      fontWeight="medium"
+                      letterSpacing="wide"
+                    >
+                      {game.tag}
+                    </Badge>
+                  </Box>
+                ))
+              )}
             </Box>
           </Box>
 
@@ -200,7 +190,13 @@ function App() {
                 デバイスを選択して同期開始
               </Text>
             </Box>
-            <Text fontSize="sm" color="whiteAlpha.700" mb={6} ml={10} textAlign="left">
+            <Text
+              fontSize="sm"
+              color="whiteAlpha.700"
+              mb={6}
+              ml={10}
+              textAlign="left"
+            >
               お使いのデバイスに合わせて選択してください。日程の変更や追加は自動反映されます。
             </Text>
 
