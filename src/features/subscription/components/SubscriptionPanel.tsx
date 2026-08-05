@@ -1,25 +1,13 @@
 import { Box, Text, SimpleGrid } from "@chakra-ui/react";
-import { useState } from "react";
 import { initialSyncItems } from "@/data/syncItemsDate";
 import { SyncItemCard } from "./SyncItemCard";
 
-export const SubscriptionPanel = () => {
-  const [checkedIds, setCheckedIds] = useState<Set<string>>(
-    new Set(["dodgers"]),
-  );
+type Props = {
+  checkedIds: Set<string>;
+  onCheckedChange: (id: string, checked: boolean) => void;
+};
 
-  const handleCheckboxChange = (id: string, checked: boolean) => {
-    setCheckedIds((prev) => {
-      const next = new Set(prev);
-      if (checked) {
-        next.add(id);
-      } else {
-        next.delete(id);
-      }
-      return next;
-    });
-  };
-
+export const SubscriptionPanel = ({ checkedIds, onCheckedChange }:Props) => {
   return (
     <Box bg="gray.800" borderRadius="xl" p={6}>
       <Box display="flex" alignItems="center" gap={3} mb={1}>
@@ -57,7 +45,7 @@ export const SubscriptionPanel = () => {
             key={item.id}
             item={item}
             checked={checkedIds.has(item.id)}
-            onChange={handleCheckboxChange}
+            onChange={onCheckedChange}
           />
         ))}
       </SimpleGrid>

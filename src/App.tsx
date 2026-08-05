@@ -3,10 +3,11 @@ import "./App.css";
 import { SubscriptionPanel } from "@/features/subscription/components/SubscriptionPanel";
 import { FcGoogle } from "react-icons/fc";
 import { FaApple } from "react-icons/fa";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import {
   fetchDodgerGames,
   type Game,
+  SASAKI_MLB_ID,
 } from "@/features/subscription/api/mlbApi";
 
 function App() {
@@ -19,6 +20,48 @@ function App() {
       .catch(console.error)
       .finally(() => setGamesLoading(false));
   }, []);
+
+  const [checkedIds, setCheckedIds] = useState<Set<string>>(
+    new Set(["dodgers"]),
+  );
+
+  const handleCheckedChange = (id: string, checked: boolean) => {
+    setCheckedIds((prev) => {
+      const next = new Set(prev);
+      if (checked) {
+        next.add(id);
+      } else {
+        next.delete(id);
+      }
+      return next;
+    });
+  };
+
+  // チェック状態に応じてゲームをフィルタリング
+  const filteredGames = useMemo(() => {
+    const dodgers = checkedIds.has("dodgers");
+    const sasaki = checkedIds.has("sasaki");
+
+    if (!dodgers && !sasaki) return [];
+    if (dodgers && !sasaki) return games;
+    if (!dodgers && sasaki) {
+      return games
+        .filter((game) => game.probablePitcherID === SASAKI_MLB_ID)
+        .map((game) => ({
+          ...game,
+          tag: "佐々木朗希先発予定",
+        }));
+    }
+
+    // 両方チェック：全試合表示、佐々木登板試合はタグを上書き
+    return games.map((game) => ({
+      ...game,
+      tag:
+        game.probablePitcherID === SASAKI_MLB_ID
+          ? "佐々木朗希先発予定"
+          : "ドジャース全試合",
+    }));
+  }, [games, checkedIds]);
 
   return (
     <>
@@ -44,7 +87,10 @@ function App() {
           一度追加するだけで、ドジャース戦の日程や放送スケジュール、先発予定があなたのカレンダーに自動更新で同期され続けます
         </Text>
         <Box w="full" maxW="lg">
-          <SubscriptionPanel />
+          <SubscriptionPanel 
+          checkedIds={checkedIds}
+          onCheckedChange={handleCheckedChange}
+          />
           <Box bg="gray.800" borderRadius="xl" p={6} mt={4}>
             <Box
               display="flex"
@@ -72,7 +118,7 @@ function App() {
                 </Text>
               </Box>
               <Badge colorPalette="gray" px={3} py={1} borderRadius="full">
-                計{games.length}件
+                計{filteredGames.length}件
               </Badge>
             </Box>
 
@@ -99,7 +145,7 @@ function App() {
                   <Spinner color="blue.500" size="lg" />
                 </Box>
               ) : (
-                games.map((game, index) => (
+                filteredGames.map((game, index) => (
                   <Box
                     key={game.id}
                     display="flex"
@@ -108,7 +154,7 @@ function App() {
                     px={4}
                     py={3}
                     borderBottom={
-                      index < games.length - 1 ? "1px solid" : "none"
+                      index < filteredGames.length - 1 ? "1px solid" : "none"
                     }
                     borderColor="whiteAlpha.100"
                     gap={3}

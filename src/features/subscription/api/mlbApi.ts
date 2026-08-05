@@ -1,5 +1,5 @@
-export const SASAKI_MLB_ID = 808963;
-export const YAMAMOTO_MLB_ID = 808967;
+export const SASAKI_MLB_ID = "808963";
+export const YAMAMOTO_MLB_ID = "808967";
 
 const DODGERS_TEAM_ID = 119;
 const BASE_URL = "https://statsapi.mlb.com/api/v1";
