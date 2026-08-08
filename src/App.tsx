@@ -144,7 +144,17 @@ function App() {
                 <Box py={6} textAlign="center">
                   <Spinner color="blue.500" size="lg" />
                 </Box>
-              ) : (
+              ) : filteredGames.length === 0 ? (
+                <Box py={10} textAlign="center">
+                  <Text fontSize="sm" color="whiteAlpha.500" fontWeight="bold" mb={1}>
+                    同期対象が選ばれていません
+                  </Text>
+                  <Text fontSize="xs" color="whiteAlpha.400">
+                    上のチェックボックスから対象を選択してください。
+                  </Text>
+                </Box>
+              )
+              : (
                 filteredGames.map((game, index) => (
                   <Box
                     key={game.id}
