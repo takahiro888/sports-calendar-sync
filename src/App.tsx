@@ -86,7 +86,7 @@ function App() {
         >
           一度追加するだけで、ドジャース戦の日程や放送スケジュール、先発予定があなたのカレンダーに自動更新で同期され続けます
         </Text>
-        <Box w="full" maxW="lg">
+        <Box w="full" maxW="3xl">
           <SubscriptionPanel 
           checkedIds={checkedIds}
           onCheckedChange={handleCheckedChange}
