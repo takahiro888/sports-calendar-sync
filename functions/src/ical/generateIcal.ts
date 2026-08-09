@@ -2,7 +2,7 @@ import { ICalGame } from "../mlb/mlbClient.js";
 import { escapeICalText } from "./escapeICalText.js";
 
 function toICalDate(iso: string): string {
-  return iso.replace(/[-:]/g, "").replace(/\.\d+$/, "");
+  return iso.replace(/[-:]/g, "").replace(/\.\d+/, "");
 }
 
 function addHours(iso: string, hours: number): string {
