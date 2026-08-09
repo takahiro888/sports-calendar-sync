@@ -362,9 +362,7 @@ function App() {
       {syncModal && (
         <CalendarSyncModal
           type={syncModal}
-          calendarUrl={
-            "https://sports-calendar-sync.vercel.app/feed/calendar.ics"
-          }
+          calendarUrl={"https://sportscal-sync.com/ical/dodgers.ics"}
           onClose={() => setSyncModal(null)}
         />
       )}
