@@ -9,10 +9,12 @@ import {
   type Game,
   SASAKI_MLB_ID,
 } from "@/features/subscription/api/mlbApi";
+import { CalendarSyncModal } from "./features/subscription/components/CalendarSyncModal";
 
 function App() {
   const [games, setGames] = useState<Game[]>([]);
   const [gamesLoading, setGamesLoading] = useState<boolean>(true);
+  const [syncModal, setSyncModal] = useState<"google" | "apple" | null>(null);
 
   useEffect(() => {
     fetchDodgerGames(2026)
@@ -87,9 +89,9 @@ function App() {
           一度追加するだけで、ドジャース戦の日程や放送スケジュール、先発予定があなたのカレンダーに自動更新で同期され続けます
         </Text>
         <Box w="full" maxW="3xl">
-          <SubscriptionPanel 
-          checkedIds={checkedIds}
-          onCheckedChange={handleCheckedChange}
+          <SubscriptionPanel
+            checkedIds={checkedIds}
+            onCheckedChange={handleCheckedChange}
           />
           <Box bg="gray.800" borderRadius="xl" p={6} mt={4}>
             <Box
@@ -146,15 +148,19 @@ function App() {
                 </Box>
               ) : filteredGames.length === 0 ? (
                 <Box py={10} textAlign="center">
-                  <Text fontSize="sm" color="whiteAlpha.500" fontWeight="bold" mb={1}>
+                  <Text
+                    fontSize="sm"
+                    color="whiteAlpha.500"
+                    fontWeight="bold"
+                    mb={1}
+                  >
                     同期対象が選ばれていません
                   </Text>
                   <Text fontSize="xs" color="whiteAlpha.400">
                     上のチェックボックスから対象を選択してください。
                   </Text>
                 </Box>
-              )
-              : (
+              ) : (
                 filteredGames.map((game, index) => (
                   <Box
                     key={game.id}
@@ -283,6 +289,7 @@ function App() {
               fontWeight="bold"
               fontSize="md"
               transition="background 0.2s"
+              onClick={() => setSyncModal("google")}
             >
               <FcGoogle size={24} />
               Googleカレンダーに同期する
@@ -314,6 +321,7 @@ function App() {
               fontWeight="bold"
               fontSize="md"
               transition="background 0.2s"
+              onClick={() => setSyncModal("apple")}
             >
               <FaApple size={24} />
               iPhone / Mac のカレンダーに追加
@@ -349,6 +357,17 @@ function App() {
           </Box>
         </Box>
       </Box>
+
+      {/* モーダル */}
+      {syncModal && (
+        <CalendarSyncModal
+          type={syncModal}
+          calendarUrl={
+            "https://sports-calendar-sync.vercel.app/feed/calendar.ics"
+          }
+          onClose={() => setSyncModal(null)}
+        />
+      )}
     </>
   );
 }
