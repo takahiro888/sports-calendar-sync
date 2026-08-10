@@ -4,4 +4,5 @@ export type SyncItem = {
   description: string;
   badge?: string;
   disabled?: boolean;
+  icalUrl?: string;
 };

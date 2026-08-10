@@ -11,7 +11,10 @@ function addHours(iso: string, hours: number): string {
   return date.toISOString();
 }
 
-export function generateIcal(games: ICalGame[]): string {
+export function generateIcal(
+  games: ICalGame[],
+  calName = "ドジャース 試合日程",
+): string {
   const dtstamp = toICalDate(new Date().toISOString());
 
   const events = games
@@ -36,7 +39,7 @@ export function generateIcal(games: ICalGame[]): string {
     "PRODID:-//SportsCal Sync//MLB//JA",
     "CALSCALE:GREGORIAN",
     "METHOD:PUBLISH",
-    "X-WR-CALNAME:ドジャース 試合日程",
+    `X-WR-CALNAME:${calName}`,
     "REFRESH-INTERVAL;VALUE=DURATION:PT6H",
     events,
     "END:VCALENDAR",

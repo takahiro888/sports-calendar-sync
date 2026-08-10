@@ -5,7 +5,23 @@
     "rewrites": [
       {
         "source": "/ical/dodgers.ics",
-        "function": "icalFeed"
+        "function": "icalFeed",
+        "region": "asia-northeast1"
+      },
+      {
+        "source": "/ical/sasaki.ics",
+        "function": "icalSasakiFeed",
+        "region": "asia-northeast1"
+      },
+      {
+        "source": "/ical/yamamoto.ics",
+        "function": "icalYamamotoFeed",
+        "region": "asia-northeast1"
+      },
+      {
+        "source": "/ical/ohtani.ics",
+        "function": "icalOhtaniFeed",
+        "region": "asia-northeast1"
       },
       {
         "source": "**",

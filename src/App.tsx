@@ -4,6 +4,7 @@ import { SubscriptionPanel } from "@/features/subscription/components/Subscripti
 import { FcGoogle } from "react-icons/fc";
 import { FaApple } from "react-icons/fa";
 import { useState, useEffect, useMemo } from "react";
+import { initialSyncItems } from "@/data/syncItemsDate";
 import {
   fetchDodgerGames,
   type Game,
@@ -28,15 +29,7 @@ function App() {
   );
 
   const handleCheckedChange = (id: string, checked: boolean) => {
-    setCheckedIds((prev) => {
-      const next = new Set(prev);
-      if (checked) {
-        next.add(id);
-      } else {
-        next.delete(id);
-      }
-      return next;
-    });
+    setCheckedIds(checked ? new Set([id]) : new Set());
   };
 
   // チェック状態に応じてゲームをフィルタリング
@@ -64,6 +57,12 @@ function App() {
           : "ドジャース全試合",
     }));
   }, [games, checkedIds]);
+
+  // チェック内容からiCal URLを決定
+  const calendarUrl = useMemo(() => {
+    const selected = initialSyncItems.find((item) => checkedIds.has(item.id));
+    return selected?.icalUrl ?? "";
+  }, [checkedIds]);
 
   return (
     <>
@@ -359,10 +358,10 @@ function App() {
       </Box>
 
       {/* モーダル */}
-      {syncModal && (
+      {syncModal && calendarUrl && (
         <CalendarSyncModal
           type={syncModal}
-          calendarUrl={"https://sportscal-sync.com/ical/dodgers.ics"}
+          calendarUrl={calendarUrl}
           onClose={() => setSyncModal(null)}
         />
       )}
