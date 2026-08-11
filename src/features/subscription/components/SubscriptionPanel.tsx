@@ -1,13 +1,18 @@
 import { Box, Text, SimpleGrid } from "@chakra-ui/react";
-import { initialSyncItems } from "@/data/syncItemsDate";
+import type { SyncItem } from "@/types/sync";
 import { SyncItemCard } from "./SyncItemCard";
 
 type Props = {
+  items: SyncItem[];
   checkedIds: Set<string>;
   onCheckedChange: (id: string, checked: boolean) => void;
 };
 
-export const SubscriptionPanel = ({ checkedIds, onCheckedChange }: Props) => {
+export const SubscriptionPanel = ({
+  items,
+  checkedIds,
+  onCheckedChange,
+}: Props) => {
   return (
     <Box bg="gray.800" borderRadius="xl" p={6}>
       <Box display="flex" alignItems="center" gap={3} mb={1}>
@@ -40,7 +45,7 @@ export const SubscriptionPanel = ({ checkedIds, onCheckedChange }: Props) => {
       </Text>
 
       <SimpleGrid columns={2} gap={3}>
-        {initialSyncItems.map((item) => (
+        {items.map((item) => (
           <SyncItemCard
             key={item.id}
             item={item}

@@ -22,8 +22,6 @@ export const SyncItemCard = ({
 
   return (
     <Box
-      //   as="label" // label要素にすることでカード全体クリック可能にする
-      //   htmlFor={item.id}
       onClick={() => {
         if (!isDisabled) {
           onChange(item.id, !checked);
@@ -50,7 +48,10 @@ export const SyncItemCard = ({
           <CheckboxControl />
         </CheckboxRoot>
         {item.badge && (
-          <Badge fontSize="xs" colorPalette="gray">
+          <Badge
+            fontSize="xs"
+            colorPalette={item.badge === "個人" ? "white" : "teal"}
+          >
             {item.badge}
           </Badge>
         )}

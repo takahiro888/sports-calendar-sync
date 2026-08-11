@@ -8,9 +8,12 @@ import { initialSyncItems } from "@/data/syncItemsDate";
 import {
   fetchDodgerGames,
   type Game,
+  OHTANI_MLB_ID,
+  YAMAMOTO_MLB_ID,
   SASAKI_MLB_ID,
 } from "@/features/subscription/api/mlbApi";
 import { CalendarSyncModal } from "./features/subscription/components/CalendarSyncModal";
+import type { SyncItem } from "./types/sync";
 
 function App() {
   const [games, setGames] = useState<Game[]>([]);
@@ -34,12 +37,37 @@ function App() {
 
   // チェック状態に応じてゲームをフィルタリング
   const filteredGames = useMemo(() => {
-    const dodgers = checkedIds.has("dodgers");
-    const sasaki = checkedIds.has("sasaki");
+    // const dodgers = checkedIds.has("dodgers");
+    // const sasaki = checkedIds.has("sasaki");
+    // if (!dodgers && !sasaki) return [];
+    // if (dodgers && !sasaki) return games;
+    // if (!dodgers && sasaki) {
+    //   return games
+    //     .filter((game) => game.probablePitcherID === SASAKI_MLB_ID)
+    //     .map((game) => ({
+    //       ...game,
+    //       tag: "佐々木朗希先発予定",
+    //     }));
+    // }
 
-    if (!dodgers && !sasaki) return [];
-    if (dodgers && !sasaki) return games;
-    if (!dodgers && sasaki) {
+    if (checkedIds.has("dodgers")) return games;
+    if (checkedIds.has("ohtani")) {
+      return games
+        .filter((game) => game.probablePitcherID === OHTANI_MLB_ID)
+        .map((game) => ({
+          ...game,
+          tag: "大谷翔平先発予定",
+        }));
+    }
+    if (checkedIds.has("yamamoto")) {
+      return games
+        .filter((game) => game.probablePitcherID === YAMAMOTO_MLB_ID)
+        .map((game) => ({
+          ...game,
+          tag: "山本由伸先発予定",
+        }));
+    }
+    if (checkedIds.has("sasaki")) {
       return games
         .filter((game) => game.probablePitcherID === SASAKI_MLB_ID)
         .map((game) => ({
@@ -47,15 +75,7 @@ function App() {
           tag: "佐々木朗希先発予定",
         }));
     }
-
-    // 両方チェック：全試合表示、佐々木登板試合はタグを上書き
-    return games.map((game) => ({
-      ...game,
-      tag:
-        game.probablePitcherID === SASAKI_MLB_ID
-          ? "佐々木朗希先発予定"
-          : "ドジャース全試合",
-    }));
+    return [];
   }, [games, checkedIds]);
 
   // チェック内容からiCal URLを決定
@@ -63,6 +83,52 @@ function App() {
     const selected = initialSyncItems.find((item) => checkedIds.has(item.id));
     return selected?.icalUrl ?? "";
   }, [checkedIds]);
+
+  // 動的なitemsを生成
+  const syncItems = useMemo((): SyncItem[] => {
+    if (gamesLoading)
+      return initialSyncItems.map((item) => ({
+        ...item,
+        description: "取得中...",
+      }));
+
+    const ohtaniCount = games.filter(
+      (g) => g.probablePitcherID === OHTANI_MLB_ID,
+    ).length;
+    const yamamotoCount = games.filter(
+      (g) => g.probablePitcherID === YAMAMOTO_MLB_ID,
+    ).length;
+    const sasakiCount = games.filter(
+      (g) => g.probablePitcherID === SASAKI_MLB_ID,
+    ).length;
+
+    return initialSyncItems.map((item) => {
+      switch (item.id) {
+        case "dodgers":
+          return {
+            ...item,
+            description: `公式戦の全スケジュール${games.length}試合が対象です。`,
+          };
+        case "ohtani":
+          return {
+            ...item,
+            description: `大谷翔平先発予定の試合${ohtaniCount}試合が対象です。`,
+          };
+        case "yamamoto":
+          return {
+            ...item,
+            description: `山本由伸先発予定の試合${yamamotoCount}試合が対象です。`,
+          };
+        case "sasaki":
+          return {
+            ...item,
+            description: `佐々木朗希先発予定の試合${sasakiCount}試合が対象です。`,
+          };
+        default:
+          return item;
+      }
+    });
+  }, [games, gamesLoading]);
 
   return (
     <>
@@ -78,14 +144,14 @@ function App() {
         <Text fontSize="3xl" fontWeight="bold" color="white" mb={4}>
           SportsCalendar{" "}
           <Text
-          as="span"
-          bgGradient="to-r"
-          gradientFrom="purple.400"
-          gradientTo="blue.400"
-          bgClip="text"
-        >
-          Sync
-        </Text>
+            as="span"
+            bgGradient="to-r"
+            gradientFrom="purple.400"
+            gradientTo="blue.400"
+            bgClip="text"
+          >
+            Sync
+          </Text>
         </Text>
         <Text
           fontSize="sm"
@@ -98,6 +164,7 @@ function App() {
         </Text>
         <Box w="full" maxW="3xl">
           <SubscriptionPanel
+            items={syncItems}
             checkedIds={checkedIds}
             onCheckedChange={handleCheckedChange}
           />
