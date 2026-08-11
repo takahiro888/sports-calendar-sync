@@ -2,7 +2,7 @@ import { fetchDodgersGames, OHTANI_MLB_ID } from "../mlb/mlbClient.js";
 import { generateIcal } from "../ical/generateIcal.js";
 import { onRequest } from "firebase-functions/v2/https";
 
-export const icalOhtaniFeed = onRequest(async (_request, response) => {
+export const icalOhtaniFeed = onRequest({ region: "asia-northeast1" }, async (_request, response) => {
   const games = await fetchDodgersGames(2026);
   const filtered = games.filter((game) => game.probablePitcherID === OHTANI_MLB_ID);
   const ical = generateIcal(filtered, "大谷 翔平 先発予定");
