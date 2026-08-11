@@ -76,7 +76,16 @@ function App() {
         px={4}
       >
         <Text fontSize="3xl" fontWeight="bold" color="white" mb={4}>
-          SportsCalendar Sync
+          SportsCalendar{" "}
+          <Text
+          as="span"
+          bgGradient="to-r"
+          gradientFrom="purple.400"
+          gradientTo="blue.400"
+          bgClip="text"
+        >
+          Sync
+        </Text>
         </Text>
         <Text
           fontSize="sm"
