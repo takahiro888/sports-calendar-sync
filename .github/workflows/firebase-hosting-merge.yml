@@ -32,7 +32,7 @@ jobs:
           credentials_json: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_SPORTS_CALENDAR_SYNC_9D780 }}
 
       - name: Deploy functions
-        run: npx firebase-tools deploy --only functions --project sports-calendar-sync-9d780
+        run: npx firebase-tools deploy --only functions --project sports-calendar-sync-9d780 --force
 
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
