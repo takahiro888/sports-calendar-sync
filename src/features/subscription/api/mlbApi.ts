@@ -128,5 +128,11 @@ export async function fetchDodgerGames(season: number): Promise<Game[]> {
     throw new Error(`Failed to fetch MLB schedule: ${response.statusText}`);
   }
   const data: MLBScheduleResponse = await response.json();
-  return data.dates.flatMap((date) => date.games.map(toGame));
+  const allGames = data.dates.flatMap((date) => date.games.map(toGame));
+  const seen = new Set<number>();
+  return allGames.filter((game) => {
+    if (seen.has(game.id)) return false;
+    seen.add(game.id);
+    return true;
+  });
 }
