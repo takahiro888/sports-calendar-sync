@@ -3,7 +3,7 @@ import "./App.css";
 import { SubscriptionPanel } from "@/features/subscription/components/SubscriptionPanel";
 import { FcGoogle } from "react-icons/fc";
 import { FaApple } from "react-icons/fa";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import { initialSyncItems } from "@/data/syncItemsDate";
 import {
   fetchDodgerGames,
@@ -37,19 +37,6 @@ function App() {
 
   // チェック状態に応じてゲームをフィルタリング
   const filteredGames = useMemo(() => {
-    // const dodgers = checkedIds.has("dodgers");
-    // const sasaki = checkedIds.has("sasaki");
-    // if (!dodgers && !sasaki) return [];
-    // if (dodgers && !sasaki) return games;
-    // if (!dodgers && sasaki) {
-    //   return games
-    //     .filter((game) => game.probablePitcherID === SASAKI_MLB_ID)
-    //     .map((game) => ({
-    //       ...game,
-    //       tag: "佐々木朗希先発予定",
-    //     }));
-    // }
-
     if (checkedIds.has("dodgers")) return games;
     if (checkedIds.has("ohtani")) {
       return games
@@ -129,6 +116,22 @@ function App() {
       }
     });
   }, [games, gamesLoading]);
+
+  // 今日以降の最初の試合インデックスを求める
+  const todayRef = useRef<HTMLDivElement>(null);
+
+  const firstUpcomingIndex = useMemo(() => {
+    const today = new Date();
+    const mm = String(today.getMonth() + 1).padStart(2, "0");
+    const dd = String(today.getDate()).padStart(2, "0");
+    const todayStr = `${mm}/${dd}`;
+
+    return filteredGames.findIndex((game) => game.date >= todayStr);
+  }, [filteredGames]);
+
+  useEffect(() => {
+    todayRef.current?.scrollIntoView({ block: "start" });
+  }, [firstUpcomingIndex]);
 
   return (
     <>
@@ -239,6 +242,7 @@ function App() {
                 filteredGames.map((game, index) => (
                   <Box
                     key={game.id}
+                    ref={index === firstUpcomingIndex ? todayRef : undefined}
                     display="flex"
                     alignItems="center"
                     justifyContent="space-between"
