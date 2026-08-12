@@ -1,4 +1,5 @@
 import { Box, Text } from "@chakra-ui/react";
+import { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { FaApple } from "react-icons/fa";
 
@@ -28,16 +29,18 @@ const STEPS: Record<ModalType, string[]> = {
 export const CalendarSyncModal = ({ type, calendarUrl, onClose }: Props) => {
   const isGoogle = type === "google";
   const steps = STEPS[type];
+  const [copied, setCopied] = useState(false);
 
   const handleCopy = () => {
     navigator.clipboard.writeText(calendarUrl);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
   };
 
   const handleOpenCalendar = () => {
     if (isGoogle) {
-      const encoded = encodeURIComponent(calendarUrl);
       window.open(
-        `https://calendar.google.com/calendar/r?cid=${encoded}`,
+        `https://calendar.google.com/calendar/r/settings/addbyurl`,
         "_blank",
       );
     } else {
@@ -153,8 +156,8 @@ export const CalendarSyncModal = ({ type, calendarUrl, onClose }: Props) => {
           </Text>
           <Box
             as="button"
-            bg="gray.600"
-            _hover={{ bg: "gray.500" }}
+            bg={copied ? "green.600" : "gray.600"}
+            _hover={{ bg: copied ? "green.600" : "gray.500" }}
             color="white"
             borderRadius="md"
             px={3}
@@ -164,8 +167,9 @@ export const CalendarSyncModal = ({ type, calendarUrl, onClose }: Props) => {
             flexShrink={0}
             onClick={handleCopy}
             cursor="pointer"
+            transition="background-color 0.2s"
           >
-            コピー
+            {copied ? "コピー済み" : "コピー"}
           </Box>
         </Box>
 
