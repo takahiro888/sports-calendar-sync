@@ -14,6 +14,7 @@ function addHours(iso: string, hours: number): string {
 export function generateIcal(
   games: ICalGame[],
   calName = "ドジャース 試合日程",
+  color = "005A9C",
 ): string {
   const dtstamp = toICalDate(new Date().toISOString());
 
@@ -40,6 +41,8 @@ export function generateIcal(
     "CALSCALE:GREGORIAN",
     "METHOD:PUBLISH",
     `X-WR-CALNAME:${calName}`,
+    `X-APPLE-CALENDAR-COLOR:#${color}`,
+    `COLOR:#${color}`,
     "REFRESH-INTERVAL;VALUE=DURATION:PT6H",
     events,
     "END:VCALENDAR",
