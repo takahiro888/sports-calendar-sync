@@ -62,6 +62,11 @@ export const SyncItemCard = ({
       <Text fontSize="xs" color="whiteAlpha.700">
         {item.description}
       </Text>
+      {item.subDescription && (
+        <Text fontSize="xs" color="whiteAlpha.500">
+          {item.subDescription}
+        </Text>
+      )}
     </Box>
   );
 };

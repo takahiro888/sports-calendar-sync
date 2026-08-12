@@ -79,37 +79,57 @@ function App() {
         description: "取得中...",
       }));
 
-    const ohtaniCount = games.filter(
+    const now = new Date();
+    const todayStr = `${String(now.getMonth() + 1).padStart(2, "0")}/${String(now.getDate()).padStart(2, "0")}`;
+
+    const dodgersFuture = games.filter((g) => g.date >= todayStr).length;
+    const dodgersPast = games.length - dodgersFuture;
+
+    const ohtaniGames = games.filter(
       (g) => g.probablePitcherID === OHTANI_MLB_ID,
-    ).length;
-    const yamamotoCount = games.filter(
+    );
+    const ohtaniFuture = ohtaniGames.filter((g) => g.date >= todayStr).length;
+    const ohtaniPast = ohtaniGames.length - ohtaniFuture;
+
+    const yamamotoGames = games.filter(
       (g) => g.probablePitcherID === YAMAMOTO_MLB_ID,
+    );
+    const yamamotoFuture = yamamotoGames.filter(
+      (g) => g.date >= todayStr,
     ).length;
-    const sasakiCount = games.filter(
+    const yamamotoPast = yamamotoGames.length - yamamotoFuture;
+
+    const sasakiGames = games.filter(
       (g) => g.probablePitcherID === SASAKI_MLB_ID,
-    ).length;
+    );
+    const sasakiFuture = sasakiGames.filter((g) => g.date >= todayStr).length;
+    const sasakiPast = sasakiGames.length - sasakiFuture;
 
     return initialSyncItems.map((item) => {
       switch (item.id) {
         case "dodgers":
           return {
             ...item,
-            description: `公式戦の全スケジュール${games.length}試合が対象です。`,
+            description: `今シーズン全${games.length}試合`,
+            subDescription: `(今後 ${dodgersFuture}試合 / 過去 ${dodgersPast}試合)`,
           };
         case "ohtani":
           return {
             ...item,
-            description: `大谷翔平先発予定の試合${ohtaniCount}試合が対象です。`,
+            description: `今シーズンの先発登板${ohtaniGames.length}試合`,
+            subDescription: `(今後 ${ohtaniFuture}試合 / 過去 ${ohtaniPast}試合)`,
           };
         case "yamamoto":
           return {
             ...item,
-            description: `山本由伸先発予定の試合${yamamotoCount}試合が対象です。`,
+            description: `今シーズンの先発登板${yamamotoGames.length}試合`,
+            subDescription: `(今後 ${yamamotoFuture}試合 / 過去 ${yamamotoPast}試合)`,
           };
         case "sasaki":
           return {
             ...item,
-            description: `佐々木朗希先発予定の試合${sasakiCount}試合が対象です。`,
+            description: `今シーズンの先発登板${sasakiGames.length}試合`,
+            subDescription: `(今後 ${sasakiFuture}試合 / 過去 ${sasakiPast}試合)`,
           };
         default:
           return item;
@@ -163,7 +183,11 @@ function App() {
           maxW="md"
           mb={2}
         >
-          一度追加するだけで、ドジャース戦の日程や放送スケジュール、先発予定があなたのカレンダーに自動更新で同期され続けます
+          一度追加するだけで、ドジャース戦の日程や放送スケジュール、先発予定があなたのカレンダーに
+          <Text as="span" fontWeight="bold">
+            自動更新
+          </Text>
+          で同期され続けます
         </Text>
         <Box w="full" maxW="3xl">
           <SubscriptionPanel

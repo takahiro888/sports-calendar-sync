@@ -42,6 +42,11 @@ export const SubscriptionPanel = ({
         textAlign="left"
       >
         カレンダーに入れたい球団や選手にチェックを入れてください。
+        <br />
+        <Text as="span" fontSize="xs" color="whiteAlpha.500">
+
+          ※試合予定が追加・変更された場合は、自動でカレンダーに反映されます。
+        </Text>
       </Text>
 
       <SimpleGrid columns={2} gap={3}>
