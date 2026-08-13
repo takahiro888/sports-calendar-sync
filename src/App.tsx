@@ -269,10 +269,14 @@ function App() {
                   </Text>
                 </Box>
               ) : (
-                filteredGames.map((game, index) => (
+                [...filteredGames].reverse().map((game, index) => (
                   <Box
                     key={game.id}
-                    ref={index === firstUpcomingIndex ? todayRef : undefined}
+                    ref={
+                      index === filteredGames.length - 1 - firstUpcomingIndex
+                        ? todayRef
+                        : undefined
+                    }
                     display="flex"
                     alignItems="center"
                     justifyContent="space-between"
