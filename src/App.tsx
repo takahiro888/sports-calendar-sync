@@ -139,6 +139,7 @@ function App() {
 
   // 今日以降の最初の試合インデックスを求める
   const todayRef = useRef<HTMLDivElement>(null);
+  const previewContainerRef = useRef<HTMLDivElement>(null);
 
   const firstUpcomingIndex = useMemo(() => {
     const today = new Date();
@@ -150,7 +151,11 @@ function App() {
   }, [filteredGames]);
 
   useEffect(() => {
-    todayRef.current?.scrollIntoView({ block: "start" });
+    // todayRef.current?.scrollIntoView({ block: "start" });
+    const container = previewContainerRef.current;
+    const el = todayRef.current;
+    if (!container || !el) return;
+    container.scrollTop = el.offsetTop - container.offsetTop;
   }, [firstUpcomingIndex]);
 
   return (
@@ -238,6 +243,7 @@ function App() {
 
             {/* 試合リスト */}
             <Box
+              ref={previewContainerRef}
               bg="gray.700"
               borderRadius="lg"
               overflow="hidden"
