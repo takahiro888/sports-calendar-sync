@@ -34,6 +34,9 @@ export const CalendarSyncModal = ({ type, calendarUrl, onClose }: Props) => {
   const handleCopy = () => {
     navigator.clipboard.writeText(calendarUrl);
     setCopied(true);
+    window.gtag?.("event", "calendar_url_copied", {
+      calendar_type: type,
+    });
     setTimeout(() => setCopied(false), 2000);
   };
 

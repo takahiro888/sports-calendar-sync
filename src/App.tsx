@@ -412,7 +412,13 @@ function App() {
               fontWeight="bold"
               fontSize="md"
               transition="background 0.2s"
-              onClick={() => setSyncModal("google")}
+              onClick={() => {
+                setSyncModal("google");
+                window.gtag?.("event", "calendar_sync_started", {
+                  calendar_type: "google",
+                  sync_target: [...checkedIds][0] ?? "none",
+                });
+              }}
             >
               <FcGoogle size={24} />
               Googleカレンダーに同期する
@@ -444,7 +450,13 @@ function App() {
               fontWeight="bold"
               fontSize="md"
               transition="background 0.2s"
-              onClick={() => setSyncModal("apple")}
+              onClick={() => {
+                setSyncModal("apple");
+                window.gtag?.("event", "calendar_sync_started", {
+                  calendar_type: "apple",
+                  sync_target: [...checkedIds][0] ?? "none",
+                });
+              }}
             >
               <FaApple size={24} />
               iPhone / Mac のカレンダーに追加
