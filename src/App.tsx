@@ -27,6 +27,15 @@ function App() {
       .finally(() => setGamesLoading(false));
   }, []);
 
+  // 1デバイス1IDをlocalStorageで永続化
+  const syncId = useMemo(() => {
+    const stored = localStorage.getItem("sportsCalSyncId");
+    if (stored) return stored;
+    const id = crypto.randomUUID();
+    localStorage.setItem("sportsCalSyncId", id);
+    return id;
+  }, []);
+
   const [checkedIds, setCheckedIds] = useState<Set<string>>(
     new Set(["dodgers"]),
   );
@@ -68,8 +77,9 @@ function App() {
   // チェック内容からiCal URLを決定
   const calendarUrl = useMemo(() => {
     const selected = initialSyncItems.find((item) => checkedIds.has(item.id));
-    return selected?.icalUrl ?? "";
-  }, [checkedIds]);
+    const base = selected?.icalUrl ?? "";
+    return base ? `${base}?s=${syncId}` : "";
+  }, [checkedIds, syncId]);
 
   // 動的なitemsを生成
   const syncItems = useMemo((): SyncItem[] => {
