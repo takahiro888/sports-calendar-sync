@@ -1,6 +1,12 @@
-export const OHTANI_MLB_ID = "660271";
-export const YAMAMOTO_MLB_ID = "808967";
-export const SASAKI_MLB_ID = "808963";
+// export const OHTANI_MLB_ID = "660271";
+// export const YAMAMOTO_MLB_ID = "808967";
+// export const SASAKI_MLB_ID = "808963";
+
+// export {
+//   OHTANI_MLB_ID,
+//   YAMAMOTO_MLB_ID,
+//   SASAKI_MLB_ID,
+// } from "@/constants/players";
 
 const DODGERS_TEAM_ID = 119;
 const BASE_URL = "https://statsapi.mlb.com/api/v1";
