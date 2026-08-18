@@ -63,10 +63,15 @@ function App() {
         display="flex"
         flexDirection="column"
         alignItems="center"
-        pt={16}
+        pt={{ base: 8, md: 16 }}
         px={4}
       >
-        <Text fontSize="3xl" fontWeight="bold" color="white" mb={4}>
+        <Text
+          fontSize={{ base: "2xl", md: "3xl" }}
+          fontWeight="bold"
+          color="white"
+          mb={4}
+        >
           SportsCalendar{" "}
           <Text
             as="span"

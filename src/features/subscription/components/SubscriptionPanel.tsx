@@ -14,7 +14,7 @@ export const SubscriptionPanel = ({
   onCheckedChange,
 }: Props) => {
   return (
-    <Box bg="gray.800" borderRadius="xl" p={6}>
+    <Box bg="gray.800" borderRadius="xl" p={{ base: 4, sm: 6 }}>
       <Box display="flex" alignItems="center" gap={3} mb={1}>
         <Box
           bg="blue.500"
@@ -44,12 +44,11 @@ export const SubscriptionPanel = ({
         カレンダーに入れたい球団や選手にチェックを入れてください。
         <br />
         <Text as="span" fontSize="xs" color="whiteAlpha.500">
-
           ※試合予定が追加・変更された場合は、自動でカレンダーに反映されます。
         </Text>
       </Text>
 
-      <SimpleGrid columns={2} gap={3}>
+      <SimpleGrid columns={{ base: 1, sm: 2 }} gap={3}>
         {items.map((item) => (
           <SyncItemCard
             key={item.id}

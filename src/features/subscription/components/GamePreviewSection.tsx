@@ -36,7 +36,7 @@ export const GamePreviewSection = ({ filteredGames, isLoading }: Props) => {
   );
 
   return (
-    <Box bg="gray.800" borderRadius="xl" p={6} mt={4}>
+    <Box bg="gray.800" borderRadius="xl" p={{ base: 4, sm: 6 }} mt={4}>
       <StepHeader
         step={2}
         title="登録予定の試合日程プレビュー"
@@ -51,7 +51,7 @@ export const GamePreviewSection = ({ filteredGames, isLoading }: Props) => {
         fontSize="sm"
         color="whiteAlpha.700"
         mb={4}
-        ml={10}
+        ml={{ base: 0, md: 10 }}
         textAlign="left"
       >
         カレンダーに同期される試合スケジュールの一覧です。

@@ -31,7 +31,7 @@ export const GamePreviewItem = ({ game, isLast, ref }: Props) => (
     </Box>
 
     {/* 試合情報 */}
-    <Box flex={1}>
+    <Box flex={1} minW={0}>
       <Box display="flex" alignItems="center" gap={2}>
         <Text fontSize="sm" color="white">
           {game.matchup}
@@ -44,7 +44,15 @@ export const GamePreviewItem = ({ game, isLast, ref }: Props) => (
           {game.location}
         </Badge>
       </Box>
-      <Text fontSize="xs" color="whiteAlpha.600" mt={0.5} textAlign="left">
+      <Text
+        fontSize="xs"
+        color="whiteAlpha.600"
+        mt={0.5}
+        textAlign="left"
+        overflow="hidden"
+        textOverflow="ellipsis"
+        whiteSpace="nowrap"
+      >
         {game.broadcast}
       </Text>
     </Box>

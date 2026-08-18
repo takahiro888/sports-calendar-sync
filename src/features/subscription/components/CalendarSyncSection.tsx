@@ -9,13 +9,13 @@ type Props = {
 
 export const CalendarSyncSection = ({ onSync }: Props) => {
   return (
-    <Box bg="gray.800" borderRadius="xl" p={6} mt={4}>
+    <Box bg="gray.800" borderRadius="xl" p={{ base: 4, sm: 6 }} mt={4}>
       <StepHeader step={3} title="カレンダーに同期する" />
       <Text
         fontSize="sm"
         color="whiteAlpha.700"
         mb={6}
-        ml={10}
+        ml={{ base: 0, md: 10 }}
         textAlign="left"
       >
         お使いのデバイスに合わせて選択してください。日程の変更や追加は自動反映されます。

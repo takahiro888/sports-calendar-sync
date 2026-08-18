@@ -68,7 +68,7 @@ export const CalendarSyncModal = ({ type, calendarUrl, onClose }: Props) => {
       <Box
         bg="gray.800"
         borderRadius="2xl"
-        p={6}
+        p={{ base: 4, sm: 6 }}
         w="full"
         maxW="xl"
         position="relative"
@@ -142,18 +142,16 @@ export const CalendarSyncModal = ({ type, calendarUrl, onClose }: Props) => {
           borderRadius="xl"
           p={3}
           display="flex"
-          alignItems="center"
+          flexDirection={{ base: "column", sm: "row" }}
+          alignItems={{ base: "stretch", sm: "center" }}
           gap={2}
           mb={3}
-          overflow="hidden"
         >
           <Text
             fontSize="xs"
             color="whiteAlpha.800"
             flex="1"
-            overflow="hidden"
-            textOverflow="ellipsis"
-            whiteSpace="nowrap"
+            wordBreak="break-all"
           >
             {calendarUrl}
           </Text>
@@ -164,10 +162,11 @@ export const CalendarSyncModal = ({ type, calendarUrl, onClose }: Props) => {
             color="white"
             borderRadius="md"
             px={3}
-            py={1}
+            py={2}
             fontSize="xs"
             fontWeight="bold"
             flexShrink={0}
+            alignSelf={{ base: "flex-end", sm: "auto" }}
             onClick={handleCopy}
             cursor="pointer"
             transition="background-color 0.2s"
