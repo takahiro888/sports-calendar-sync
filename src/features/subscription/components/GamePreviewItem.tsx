@@ -11,31 +11,28 @@ type Props = {
 export const GamePreviewItem = ({ game, isLast, ref }: Props) => (
   <Box
     ref={ref}
-    display="flex"
-    alignItems="center"
-    justifyContent="space-between"
     px={4}
     py={3}
     borderBottom={isLast ? "none" : "1px solid"}
     borderColor="whiteAlpha.100"
-    gap={3}
   >
-    {/* 日付・時刻 */}
-    <Box minW="48px" textAlign="center">
-      <Text fontSize="xs" color="whiteAlpha.600">
-        {game.date}
-      </Text>
-      <Text fontSize="sm" fontWeight="bold" color="white">
-        {game.time}
-      </Text>
-    </Box>
-
-    {/* 試合情報 */}
-    <Box flex={1} minW={0}>
-      <Box display="flex" alignItems="center" gap={2}>
-        <Text fontSize="sm" color="white">
-          {game.matchup}
-        </Text>
+    {/* スマホ: 縦積み3行レイアウト（matchupにフル幅を確保） */}
+    <Box display={{ base: "block", sm: "none" }}>
+      {/* 1行目: 日付・時刻 + HOME/AWAY */}
+      <Box
+        display="flex"
+        alignItems="baseline"
+        justifyContent="space-between"
+        mb={1}
+      >
+        <Box display="flex" alignItems="baseline" gap={2}>
+          <Text fontSize="xs" color="whiteAlpha.600">
+            {game.date}
+          </Text>
+          <Text fontSize="sm" fontWeight="bold" color="white">
+            {game.time}
+          </Text>
+        </Box>
         <Badge
           colorPalette={game.location === "AWAY" ? "orange" : "green"}
           size="xs"
@@ -44,32 +41,97 @@ export const GamePreviewItem = ({ game, isLast, ref }: Props) => (
           {game.location}
         </Badge>
       </Box>
-      <Text
-        fontSize="xs"
-        color="whiteAlpha.600"
-        mt={0.5}
-        textAlign="left"
-        overflow="hidden"
-        textOverflow="ellipsis"
-        whiteSpace="nowrap"
-      >
-        {game.broadcast}
+      {/* 2行目: 対戦カード（折り返しなし・全幅） */}
+      <Text fontSize="sm" color="white" mb={1}>
+        {game.matchup}
       </Text>
+      {/* 3行目: 放送局 + 同期対象タグ */}
+      <Box
+        display="flex"
+        alignItems="center"
+        justifyContent="space-between"
+        gap={2}
+      >
+        <Text
+          fontSize="xs"
+          color="whiteAlpha.600"
+          overflow="hidden"
+          textOverflow="ellipsis"
+          whiteSpace="nowrap"
+          flex={1}
+        >
+          {game.broadcast}
+        </Text>
+        <Badge
+          bg="rgba(99, 179, 237,0.12)"
+          color="blue.200"
+          border="1px solid"
+          borderColor="blue.500"
+          borderRadius="md"
+          px={2}
+          py={0.5}
+          fontSize="xs"
+          fontWeight="medium"
+          letterSpacing="wide"
+          flexShrink={0}
+        >
+          {game.tag}
+        </Badge>
+      </Box>
     </Box>
-    {/* タグ */}
-    <Badge
-      bg="rgba(99, 179, 237,0.12)"
-      color="blue.200"
-      border="1px solid"
-      borderColor="blue.500"
-      borderRadius="md"
-      px={2}
-      py={0.5}
-      fontSize="xs"
-      fontWeight="medium"
-      letterSpacing="wide"
-    >
-      {game.tag}
-    </Badge>
+
+    {/* PC: 横並びレイアウト（既存デザイン維持） */}
+    <Box display={{ base: "none", sm: "flex" }} alignItems="center" gap={3}>
+      {/* 日付・時刻 */}
+      <Box minW="48px" textAlign="center">
+        <Text fontSize="xs" color="whiteAlpha.600">
+          {game.date}
+        </Text>
+        <Text fontSize="sm" fontWeight="bold" color="white">
+          {game.time}
+        </Text>
+      </Box>
+      {/* 試合情報 */}
+      <Box flex={1} minW={0}>
+        <Box display="flex" alignItems="center" gap={2}>
+          <Text fontSize="sm" color="white">
+            {game.matchup}
+          </Text>
+          <Badge
+            colorPalette={game.location === "AWAY" ? "orange" : "green"}
+            size="xs"
+            variant="solid"
+          >
+            {game.location}
+          </Badge>
+        </Box>
+        <Text
+          fontSize="xs"
+          color="whiteAlpha.600"
+          mt={0.5}
+          textAlign="left"
+          overflow="hidden"
+          textOverflow="ellipsis"
+          whiteSpace="nowrap"
+        >
+          {game.broadcast}
+        </Text>
+      </Box>
+      {/* タグ */}
+      <Badge
+        bg="rgba(99, 179, 237,0.12)"
+        color="blue.200"
+        border="1px solid"
+        borderColor="blue.500"
+        borderRadius="md"
+        px={2}
+        py={0.5}
+        fontSize="xs"
+        fontWeight="medium"
+        letterSpacing="wide"
+      >
+        {game.tag}
+      </Badge>
+    </Box>
   </Box>
 );

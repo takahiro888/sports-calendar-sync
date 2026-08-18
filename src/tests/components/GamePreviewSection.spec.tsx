@@ -31,7 +31,9 @@ describe("GamePreviewSection", () => {
         <GamePreviewSection filteredGames={games} isLoading={false} />
       </ChakraProvider>,
     );
-    expect(screen.getByText("ドジャース vs ヤンキース")).toBeInTheDocument();
+    expect(
+      screen.getAllByText("ドジャース vs ヤンキース")[0],
+    ).toBeInTheDocument();
   });
 
   it("試合が0件のとき案内メッセージが表示される", () => {
