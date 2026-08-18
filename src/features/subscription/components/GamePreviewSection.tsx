@@ -27,7 +27,8 @@ export const GamePreviewSection = ({ filteredGames, isLoading }: Props) => {
     const container = previewContainerRef.current;
     const el = todayRef.current;
     if (!container || !el) return;
-    container.scrollTop = el.offsetTop - container.offsetTop;
+    container.scrollTop +=
+      el.getBoundingClientRect().top - container.getBoundingClientRect().top;
   }, [firstUpcomingIndex]);
 
   const reversedGames = useMemo(
@@ -85,7 +86,12 @@ export const GamePreviewSection = ({ filteredGames, isLoading }: Props) => {
               key={game.id}
               game={game}
               isLast={index === reversedGames.length - 1}
-              ref={index === firstUpcomingIndex ? todayRef : undefined}
+              ref={
+                firstUpcomingIndex !== -1 &&
+                index === reversedGames.length - 1 - firstUpcomingIndex
+                  ? todayRef
+                  : undefined
+              }
             />
           ))
         )}
