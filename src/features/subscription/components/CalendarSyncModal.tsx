@@ -96,18 +96,6 @@ export const CalendarSyncModal = ({ type, calendarUrl, onClose }: Props) => {
           pl={3}
           mb={5}
         >
-          {/* Googleスマホ向け注意書き */}
-          {isGoogle && isMobile && (
-            <Box bg="yellow.900" borderRadius="xl" p={3} mb={4}>
-              <Text fontSize="sm" color="yellow.300" fontWeight="bold" mb={1}>
-                ⚠️ スマートフォンご利用の方へ
-              </Text>
-              <Text fontSize="xs" color="yellow.100">
-                GoogleカレンダーアプリではURLからカレンダーを追加できません。
-                パソコンから追加してください。
-              </Text>
-            </Box>
-          )}
           <Text fontWeight="bold" fontSize="lg" color="white">
             {isGoogle
               ? "Googleカレンダーとの同期手順"
@@ -117,6 +105,18 @@ export const CalendarSyncModal = ({ type, calendarUrl, onClose }: Props) => {
             下の手順でカレンダーを追加してください。
           </Text>
         </Box>
+        {/* Googleスマホ向け注意書き */}
+        {isGoogle && isMobile && (
+          <Box bg="yellow.900" borderRadius="xl" p={3} mb={4}>
+            <Text fontSize="sm" color="yellow.300" fontWeight="bold" mb={1}>
+              ⚠️ スマートフォンご利用の方へ
+            </Text>
+            <Text fontSize="xs" color="yellow.100">
+              GoogleカレンダーアプリではURLからカレンダーを追加できません。
+              パソコンから追加してください。
+            </Text>
+          </Box>
+        )}
         {/* 手順リスト */}
         <Box bg="gray.700" borderRadius="xl" p={4} mb={4}>
           {steps.map((step, i) => (
