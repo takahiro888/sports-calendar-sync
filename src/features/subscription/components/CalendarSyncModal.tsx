@@ -2,7 +2,7 @@ import { Box, Text } from "@chakra-ui/react";
 import { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { FaApple } from "react-icons/fa";
-
+import { useIsMobile } from "../../../hooks/useIsMobile";
 type ModalType = "google" | "apple";
 
 type Props = {
@@ -28,6 +28,7 @@ const STEPS: Record<ModalType, string[]> = {
 
 export const CalendarSyncModal = ({ type, calendarUrl, onClose }: Props) => {
   const isGoogle = type === "google";
+  const isMobile = useIsMobile();
   const steps = STEPS[type];
   const [copied, setCopied] = useState(false);
 
@@ -95,6 +96,18 @@ export const CalendarSyncModal = ({ type, calendarUrl, onClose }: Props) => {
           pl={3}
           mb={5}
         >
+          {/* Googleスマホ向け注意書き */}
+          {isGoogle && isMobile && (
+            <Box bg="yellow.900" borderRadius="xl" p={3} mb={4}>
+              <Text fontSize="sm" color="yellow.300" fontWeight="bold" mb={1}>
+                ⚠️ スマートフォンご利用の方へ
+              </Text>
+              <Text fontSize="xs" color="yellow.100">
+                GoogleカレンダーアプリではURLからカレンダーを追加できません。
+                パソコンから追加してください。
+              </Text>
+            </Box>
+          )}
           <Text fontWeight="bold" fontSize="lg" color="white">
             {isGoogle
               ? "Googleカレンダーとの同期手順"
