@@ -112,7 +112,7 @@ export const CalendarSyncModal = ({ type, calendarUrl, onClose }: Props) => {
               ⚠️ スマートフォンご利用の方へ
             </Text>
             <Text fontSize="xs" color="yellow.100">
-              GoogleカレンダーアプリではURLからカレンダーを追加できません。
+              GoogleカレンダーアプリはスマホではURLからカレンダーを追加できません。
               パソコンから追加してください。
             </Text>
           </Box>
@@ -189,29 +189,31 @@ export const CalendarSyncModal = ({ type, calendarUrl, onClose }: Props) => {
         </Box>
 
         {/* カレンダーを開くボタン */}
-        <Box
-          as="button"
-          w="full"
-          bg={isGoogle ? "blue.500" : "orange.500"}
-          _hover={{ bg: isGoogle ? "blue.400" : "orange.400" }}
-          color="white"
-          borderRadius="xl"
-          py={3}
-          display="flex"
-          alignItems="center"
-          justifyContent="center"
-          gap={2}
-          fontWeight="bold"
-          fontSize="sm"
-          onClick={handleOpenCalendar}
-          cursor="pointer"
-          mb={4}
-          transition="background-color 0.2s"
-        >
-          {isGoogle ? <FcGoogle size={20} /> : <FaApple size={20} />}
-          {isGoogle ? "Googleカレンダーを開く" : "Appleカレンダーを開く"}
-        </Box>
-
+        {/* Googleスマホでは非表示 */}
+        {!(isGoogle && isMobile) && (
+          <Box
+            as="button"
+            w="full"
+            bg={isGoogle ? "blue.500" : "orange.500"}
+            _hover={{ bg: isGoogle ? "blue.400" : "orange.400" }}
+            color="white"
+            borderRadius="xl"
+            py={3}
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            gap={2}
+            fontWeight="bold"
+            fontSize="sm"
+            onClick={handleOpenCalendar}
+            cursor="pointer"
+            mb={4}
+            transition="background-color 0.2s"
+          >
+            {isGoogle ? <FcGoogle size={20} /> : <FaApple size={20} />}
+            {isGoogle ? "Googleカレンダーを開く" : "Appleカレンダーを開く"}
+          </Box>
+        )}
         {/* 注意書き */}
         <Box bg="gray.700" borderRadius="xl" p={3}>
           <Text fontSize="xs" color="whiteAlpha.700">
