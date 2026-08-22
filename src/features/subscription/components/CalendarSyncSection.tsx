@@ -87,7 +87,7 @@ export const CalendarSyncSection = ({ onSync }: Props) => {
         }}
       >
         <FaApple size={24} />
-        iPhone / Mac のカレンダーに追加
+        iPhone / Mac のカレンダーに同期する
       </Box>
 
       {/* 注意書き */}
